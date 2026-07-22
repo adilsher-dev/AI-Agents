@@ -17,7 +17,7 @@ export async function streamDebate(
       topic,
       rounds,
     }),
-    signal, // 👈 Added
+    signal,
   });
 
   if (!response.ok) {
@@ -35,15 +35,17 @@ export async function streamDebate(
 
       if (done) break;
 
-      buffer += decoder.decode(value);
+      buffer += decoder.decode(value, { stream: true });
 
       const events = buffer.split("\n\n");
-      buffer = events.pop();
+      buffer = events.pop() || "";
 
       for (const event of events) {
         if (!event.startsWith("data:")) continue;
 
         const json = event.replace("data:", "").trim();
+
+        if (!json) continue;
 
         onEvent(JSON.parse(json));
       }
