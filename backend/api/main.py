@@ -14,11 +14,12 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Allow React frontend to connect
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173",
-        "https://ai-agents-ten-theta.vercel.app/"],
+    allow_origins=[
+        "http://localhost:5173",
+        "https://ai-agents-ten-theta.vercel.app",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
